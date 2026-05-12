@@ -1,0 +1,534 @@
+{% extends 'invoices/base.html' %}
+{% block content %}
+<div class="dashboard-container">
+    <!-- Welcome Header Section -->
+    <div class="dashboard-header">
+        <div class="welcome-section">
+            <div class="greeting-badge">
+                <svg class="wave-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="greeting-text">Welcome back,</span>
+            </div>
+            <h1 class="dashboard-title">{{ request.user.first_name|default:request.user.username }}</h1>
+            <p class="dashboard-subtitle">Generate invoices, create reports, and submit both to admin.</p>
+        </div>
+        <a class="btn-primary" href="{% url 'generate_documents' %}">
+            <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            New Invoice or Report
+        </a>
+    </div>
+
+    <!-- Invoices Section -->
+    <section class="list-panel">
+        <div class="panel-header">
+            <div class="panel-title-wrapper">
+                <svg class="panel-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h2>Your Invoices</h2>
+            </div>
+            <span class="item-count">{{ invoices|length }} invoice{{ invoices|length|pluralize }}</span>
+        </div>
+        
+        {% if invoices %}
+            <div class="table-responsive">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for invoice in invoices %}
+                            <tr class="table-row">
+                                <td class="event-name">
+                                    <svg class="table-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    {{ invoice.event_name }}
+                                </td>
+                                <td>{{ invoice.event_date|date:"M d, Y" }}</td>
+                                <td class="amount">KES {{ invoice.total_amount|floatformat:2 }}</td>
+                                <td>
+                                    <span class="status-badge status-{{ invoice.status }}">
+                                        {{ invoice.get_status_display }}
+                                    </span>
+                                </td>
+                                <td class="action-buttons">
+                                    <a href="{% url 'invoice_detail' invoice.pk %}" class="action-link view-link">
+                                        <svg class="action-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                        View
+                                    </a>
+                                    <a href="{% url 'download_invoice' invoice.pk %}" class="action-link download-link">
+                                        <svg class="action-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                        Download
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <p class="empty-text">No invoices yet.</p>
+                <a href="{% url 'generate_documents' %}" class="empty-action">Create your first invoice →</a>
+            </div>
+        {% endif %}
+    </section>
+
+    <!-- Reports Section -->
+    <section class="list-panel">
+        <div class="panel-header">
+            <div class="panel-title-wrapper">
+                <svg class="panel-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h2>Your Reports</h2>
+            </div>
+            <span class="item-count">{{ reports|length }} report{{ reports|length|pluralize }}</span>
+        </div>
+        
+        {% if reports %}
+            <div class="table-responsive">
+                <table class="modern-table">
+                    <thead>
+                        <td>
+                            <th>Event</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in reports %}
+                            <tr class="table-row">
+                                <td class="event-name">
+                                    <svg class="table-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                    {{ report.event_name }}
+                                </td>
+                                <td>
+                                    <svg class="location-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    {{ report.location }}
+                                </td>
+                                <td>
+                                    <span class="status-badge status-{{ report.status }}">
+                                        {{ report.get_status_display }}
+                                    </span>
+                                </td>
+                                <td class="action-buttons">
+                                    <a href="{% url 'report_detail' report.pk %}" class="action-link view-link">
+                                        <svg class="action-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                        View
+                                    </a>
+                                    <a href="{% url 'download_report' report.pk %}" class="action-link download-link">
+                                        <svg class="action-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                        Download
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <p class="empty-text">No reports yet.</p>
+                <a href="{% url 'generate_documents' %}" class="empty-action">Create your first report →</a>
+            </div>
+        {% endif %}
+    </section>
+</div>
+
+<style>
+    /* ============================================
+       Dashboard Enhanced Styling
+       ============================================ */
+    
+    .dashboard-container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    /* Header Section */
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+        padding: 1.5rem 0;
+        border-bottom: 2px solid #e2e8f0;
+    }
+    
+    .welcome-section {
+        flex: 1;
+    }
+    
+    .greeting-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+        padding: 0.4rem 1rem;
+        border-radius: 60px;
+        margin-bottom: 1rem;
+        width: fit-content;
+    }
+    
+    .wave-icon {
+        width: 20px;
+        height: 20px;
+        color: #6366f1;
+    }
+    
+    .greeting-text {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #5b21b6;
+        letter-spacing: 0.3px;
+    }
+    
+    .dashboard-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.02em;
+    }
+    
+    .dashboard-subtitle {
+        color: #64748b;
+        font-size: 1rem;
+        margin: 0;
+    }
+    
+    .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        color: white;
+        padding: 0.85rem 1.75rem;
+        border-radius: 60px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        border: none;
+        cursor: pointer;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    }
+    
+    .btn-icon {
+        width: 20px;
+        height: 20px;
+        stroke-width: 2;
+    }
+    
+    /* List Panels */
+    .list-panel {
+        background: white;
+        border-radius: 24px;
+        padding: 1.75rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+    
+    .list-panel:hover {
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+    }
+    
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.75rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f1f5f9;
+    }
+    
+    .panel-title-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .panel-icon {
+        width: 28px;
+        height: 28px;
+        color: #6366f1;
+        stroke-width: 1.8;
+    }
+    
+    .panel-header h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #0f172a;
+        margin: 0;
+    }
+    
+    .item-count {
+        background: #f1f5f9;
+        padding: 0.35rem 0.9rem;
+        border-radius: 60px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #475569;
+    }
+    
+    /* Modern Table */
+    .table-responsive {
+        overflow-x: auto;
+    }
+    
+    .modern-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .modern-table thead th {
+        text-align: left;
+        padding: 1rem 0.75rem;
+        background: #f8fafc;
+        font-weight: 600;
+        color: #334155;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e2e8f0;
+    }
+    
+    .modern-table tbody td {
+        padding: 1rem 0.75rem;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+    }
+    
+    .table-row:hover {
+        background: #fafbff;
+        transition: background 0.2s ease;
+    }
+    
+    .event-name {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-weight: 500;
+        color: #1e293b;
+    }
+    
+    .table-icon, .location-icon {
+        width: 18px;
+        height: 18px;
+        color: #94a3b8;
+        flex-shrink: 0;
+    }
+    
+    .amount {
+        font-weight: 600;
+        color: #0f172a;
+    }
+    
+    /* Status Badges */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.3rem 0.9rem;
+        border-radius: 60px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+    
+    .status-draft {
+        background: #fef3c7;
+        color: #92400e;
+    }
+    
+    .status-submitted {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+    
+    .status-approved {
+        background: #d1fae5;
+        color: #065f46;
+    }
+    
+    .status-rejected {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+    
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .action-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        padding: 0.4rem 0.8rem;
+        border-radius: 8px;
+    }
+    
+    .view-link {
+        color: #4f46e5;
+        background: #eef2ff;
+    }
+    
+    .view-link:hover {
+        background: #e0e7ff;
+        transform: translateY(-1px);
+    }
+    
+    .download-link {
+        color: #059669;
+        background: #ecfdf5;
+    }
+    
+    .download-link:hover {
+        background: #d1fae5;
+        transform: translateY(-1px);
+    }
+    
+    .action-icon {
+        width: 16px;
+        height: 16px;
+    }
+    
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: #faf9fe;
+        border-radius: 20px;
+    }
+    
+    .empty-icon {
+        width: 64px;
+        height: 64px;
+        color: #cbd5e1;
+        margin-bottom: 1rem;
+        stroke-width: 1.2;
+    }
+    
+    .empty-text {
+        color: #64748b;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .empty-action {
+        color: #4f46e5;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+    
+    .empty-action:hover {
+        color: #4338ca;
+        text-decoration: underline;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .dashboard-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .btn-primary {
+            justify-content: center;
+        }
+        
+        .dashboard-title {
+            font-size: 1.75rem;
+        }
+        
+        .panel-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .action-link {
+            width: fit-content;
+        }
+        
+        .list-panel {
+            padding: 1.25rem;
+        }
+        
+        .modern-table thead th,
+        .modern-table tbody td {
+            padding: 0.75rem 0.5rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .dashboard-title {
+            font-size: 1.5rem;
+        }
+        
+        .panel-header h2 {
+            font-size: 1.25rem;
+        }
+        
+        .event-name, .location-icon {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endblock %}

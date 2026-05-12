@@ -1,0 +1,279 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mookh.com | Invoice & Report System</title>
+    <link rel="stylesheet" href="{% static 'invoices/css/style.css' %}">
+    <style>
+        /* ==========================================================================
+           Modern Reset & Base Styles
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f4f6fa;
+            color: #1e293b;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ==========================================================================
+           Container
+           ========================================================================== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ==========================================================================
+           Header & Navigation
+           ========================================================================== */
+        .site-header {
+            background: #0f172a;  /* rich indigo/slate */
+            color: #e2e8f0;
+            border-bottom: 1px solid #1e293b;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(2px);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 16px 24px;
+        }
+
+        .brand {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #c084fc, #60a5fa);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .brand:hover {
+            opacity: 0.85;
+        }
+
+        nav {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: #ffffff;
+        }
+
+        /* Logout button styled as nav link */
+        nav form {
+            display: inline;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            font-family: inherit;
+            padding: 0;
+            text-decoration: none;
+        }
+
+        .logout-btn:hover {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        /* ==========================================================================
+           Main & Card Container
+           ========================================================================== */
+        main {
+            flex: 1;
+            margin: 40px 0 48px;
+        }
+
+        /* White card effect for content */
+        .content-card {
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.02);
+            padding: 32px 36px;
+            transition: box-shadow 0.2s ease;
+        }
+
+        /* For pages that don't wrap content in .content-card by default, we apply it to the block */
+        .content-card-wrapper {
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+            padding: 32px 36px;
+        }
+
+        /* ==========================================================================
+           Messages (Alerts)
+           ========================================================================== */
+        .messages {
+            margin-bottom: 32px;
+        }
+
+        .message {
+            padding: 14px 20px;
+            border-radius: 60px;
+            margin-bottom: 14px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            background: #f8fafc;
+            border-left: 4px solid;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+
+        .message.success {
+            border-left-color: #10b981;
+            background: #ecfdf5;
+            color: #065f46;
+        }
+
+        .message.error {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .message.warning {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+            color: #92400e;
+        }
+
+        .message.info {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+
+        /* ==========================================================================
+           Footer
+           ========================================================================== */
+        .site-footer {
+            background: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 28px 24px;
+            border-top: 1px solid #1e293b;
+            font-size: 0.85rem;
+            margin-top: auto;
+        }
+
+        .site-footer p {
+            margin: 0;
+        }
+
+        /* ==========================================================================
+           Responsive touches
+           ========================================================================== */
+        @media (max-width: 680px) {
+            .header-inner {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            nav {
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .content-card, .content-card-wrapper {
+                padding: 24px 20px;
+            }
+
+            .container {
+                padding: 0 16px;
+            }
+
+            main {
+                margin: 28px 0 40px;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            .brand {
+                font-size: 1.4rem;
+            }
+            
+            nav a, .logout-btn {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="{% url 'home' %}">Mookh Invoicing And Reports</a>
+            <nav>
+                <a href="{% url 'home' %}">Home</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'signup' %}">Sign Up</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <div class="content-card">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>© {% now 'Y' %} Mookh Invoicing And Reports — Professional invoice and report management.</p>
+    </footer>
+</body>
+</html>

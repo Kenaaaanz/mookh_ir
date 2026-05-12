@@ -1,0 +1,529 @@
+{% extends 'invoices/base.html' %}
+{% block content %}
+<div class="documents-generation-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <div class="header-icon-wrapper">
+                <svg class="header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+            </div>
+            <div>
+                <h1 class="page-title">Create New Document</h1>
+                <p class="page-description">Generate professional invoices and detailed reports for your events</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Split Grid Layout -->
+    <div class="split-grid">
+        <!-- Invoice Creation Panel -->
+        <div class="form-panel invoice-panel">
+            <div class="panel-header">
+                <div class="panel-title-section">
+                    <div class="panel-icon-circle invoice-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Create Invoice</h2>
+                        <p>Generate a detailed invoice for your client</p>
+                    </div>
+                </div>
+            </div>
+            
+            <form method="post" class="styled-form">
+                {% csrf_token %}
+                
+                {% for field in invoice_form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {{ field.label }}
+                            {% if field.field.required %}
+                                <span class="required-star">*</span>
+                            {% endif %}
+                        </label>
+                        
+                        {% if field.errors %}
+                            <div class="field-errors">
+                                {% for error in field.errors %}
+                                    <span class="error-message">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="field-wrapper">
+                            {{ field }}
+                            {% if field.help_text %}
+                                <small class="help-text">{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                
+                <div class="form-actions">
+                    <button name="create_invoice" type="submit" class="btn-generate invoice-btn">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Generate Invoice
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Report Creation Panel -->
+        <div class="form-panel report-panel">
+            <div class="panel-header">
+                <div class="panel-title-section">
+                    <div class="panel-icon-circle report-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Create Report</h2>
+                        <p>Prepare a comprehensive event report</p>
+                    </div>
+                </div>
+            </div>
+            
+            <form method="post" class="styled-form">
+                {% csrf_token %}
+                
+                {% for field in report_form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {{ field.label }}
+                            {% if field.field.required %}
+                                <span class="required-star">*</span>
+                            {% endif %}
+                        </label>
+                        
+                        {% if field.errors %}
+                            <div class="field-errors">
+                                {% for error in field.errors %}
+                                    <span class="error-message">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="field-wrapper">
+                            {{ field }}
+                            {% if field.help_text %}
+                                <small class="help-text">{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                
+                <div class="form-actions">
+                    <button name="create_report" type="submit" class="btn-generate report-btn">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Generate Report
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Help Section -->
+    <div class="help-section">
+        <div class="help-card">
+            <svg class="help-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div class="help-content">
+                <h3>Need assistance?</h3>
+                <p>Ensure all required fields are filled correctly. Invoices and reports can be submitted to admin for approval after creation.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* ============================================
+       Document Generation Page - Enhanced Styling
+       ============================================ */
+    
+    .documents-generation-container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    /* Page Header */
+    .page-header {
+        margin-bottom: 2.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e2e8f0;
+    }
+    
+    .header-content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .header-icon-wrapper {
+        background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+        border-radius: 50%;
+        width: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .header-icon {
+        width: 32px;
+        height: 32px;
+        color: #4f46e5;
+        stroke-width: 1.5;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 0.25rem;
+        letter-spacing: -0.02em;
+    }
+    
+    .page-description {
+        color: #64748b;
+        font-size: 1rem;
+        margin: 0;
+    }
+    
+    /* Split Grid */
+    .split-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    /* Form Panels */
+    .form-panel {
+        background: white;
+        border-radius: 24px;
+        padding: 2rem;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .form-panel:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .invoice-panel {
+        border-top: 4px solid #4f46e5;
+    }
+    
+    .report-panel {
+        border-top: 4px solid #10b981;
+    }
+    
+    .panel-header {
+        margin-bottom: 2rem;
+    }
+    
+    .panel-title-section {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .panel-icon-circle {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .invoice-icon {
+        background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+    }
+    
+    .invoice-icon svg {
+        width: 28px;
+        height: 28px;
+        color: #4f46e5;
+    }
+    
+    .report-icon {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    }
+    
+    .report-icon svg {
+        width: 28px;
+        height: 28px;
+        color: #059669;
+    }
+    
+    .panel-title-section h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #0f172a;
+        margin-bottom: 0.25rem;
+    }
+    
+    .panel-title-section p {
+        color: #64748b;
+        font-size: 0.875rem;
+        margin: 0;
+    }
+    
+    /* Form Styling */
+    .styled-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #334155;
+        font-size: 0.875rem;
+        letter-spacing: 0.3px;
+    }
+    
+    .required-star {
+        color: #ef4444;
+        margin-left: 0.25rem;
+    }
+    
+    .field-wrapper {
+        position: relative;
+    }
+    
+    /* Style form inputs */
+    .styled-form input,
+    .styled-form select,
+    .styled-form textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        background: white;
+        font-family: inherit;
+    }
+    
+    .styled-form input:focus,
+    .styled-form select:focus,
+    .styled-form textarea:focus {
+        outline: none;
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+    
+    .styled-form textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+    
+    /* Invoice form specific focus */
+    .invoice-panel .styled-form input:focus,
+    .invoice-panel .styled-form select:focus,
+    .invoice-panel .styled-form textarea:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+    
+    /* Report form specific focus */
+    .report-panel .styled-form input:focus,
+    .report-panel .styled-form select:focus,
+    .report-panel .styled-form textarea:focus {
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+    
+    .field-errors {
+        margin-bottom: 0.25rem;
+    }
+    
+    .error-message {
+        color: #ef4444;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    
+    .help-text {
+        display: block;
+        color: #94a3b8;
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+    }
+    
+    /* Form Actions */
+    .form-actions {
+        margin-top: 1rem;
+    }
+    
+    .btn-generate {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        padding: 0.875rem 1.5rem;
+        border: none;
+        border-radius: 60px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: inherit;
+    }
+    
+    .invoice-btn {
+        background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+    
+    .invoice-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+        background: linear-gradient(135deg, #4338ca 0%, #4f46e5 100%);
+    }
+    
+    .report-btn {
+        background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+    }
+    
+    .report-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(5, 150, 105, 0.4);
+        background: linear-gradient(135deg, #047857 0%, #059669 100%);
+    }
+    
+    .btn-generate:active {
+        transform: translateY(0);
+    }
+    
+    .btn-icon {
+        width: 20px;
+        height: 20px;
+        stroke-width: 2;
+    }
+    
+    /* Help Section */
+    .help-section {
+        margin-top: 1rem;
+    }
+    
+    .help-card {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-radius: 20px;
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border: 1px solid #e2e8f0;
+    }
+    
+    .help-icon {
+        width: 32px;
+        height: 32px;
+        color: #3b82f6;
+        flex-shrink: 0;
+    }
+    
+    .help-content h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #0f172a;
+        margin-bottom: 0.25rem;
+    }
+    
+    .help-content p {
+        font-size: 0.875rem;
+        color: #64748b;
+        margin: 0;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .split-grid {
+            gap: 1.5rem;
+        }
+        
+        .form-panel {
+            padding: 1.5rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .split-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+        }
+        
+        .header-icon-wrapper {
+            width: 48px;
+            height: 48px;
+        }
+        
+        .header-icon {
+            width: 28px;
+            height: 28px;
+        }
+        
+        .form-panel {
+            padding: 1.25rem;
+        }
+        
+        .panel-title-section h2 {
+            font-size: 1.25rem;
+        }
+        
+        .help-card {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .form-panel {
+            padding: 1rem;
+        }
+        
+        .panel-icon-circle {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .panel-icon-circle svg {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .btn-generate {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endblock %}

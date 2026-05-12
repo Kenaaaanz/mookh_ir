@@ -1,0 +1,638 @@
+{% extends 'invoices/base.html' %}
+{% block content %}
+<div class="home-container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-text">Professional Invoicing Solution</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="gradient-text">Mookh Invoicing And Reports</span>
+                <br>
+                Agent Portal
+            </h1>
+            <p class="hero-description">
+                Generate clean invoices and professional reports. Users submit event details, 
+                admin approves accounts and receives all documents.
+            </p>
+            {% if user.is_authenticated %}
+                <a class="hero-btn primary-btn" href="{% url 'dashboard' %}">
+                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    Go to Dashboard
+                </a>
+            {% else %}
+                <div class="hero-buttons">
+                    <a class="hero-btn primary-btn" href="{% url 'signup' %}">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                        </svg>
+                        Create an Account
+                    </a>
+                    <a class="hero-btn secondary-btn" href="{% url 'login' %}">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                        </svg>
+                        Sign In
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+        <div class="hero-visual">
+            <div class="visual-card">
+                <div class="document-icon large-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <div class="floating-icons">
+                    <div class="float-icon invoice-float">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div class="float-icon report-float">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section">
+        <div class="section-header">
+            <span class="section-badge">Why Choose Mookh Invoicing And Reports</span>
+            <h2 class="section-title">Powerful Features for Professionals</h2>
+            <p class="section-subtitle">Everything you need to manage your invoices and reports efficiently</p>
+        </div>
+        
+        <div class="features-grid">
+            <!-- Feature 1: Easy event input -->
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <div class="feature-icon easy-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <h3>Easy event input</h3>
+                    <p>Enter event details and generate full invoices and reports without any hassle.</p>
+                    <div class="feature-link">
+                        <span>Simple & intuitive</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2: Admin approval -->
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <div class="feature-icon admin-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <h3>Admin approval</h3>
+                    <p>Await Admin approval upon signup to Access your Dashboard and start creating documents.</p>
+                    <div class="feature-link">
+                        <span>Secure & controlled</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3: Professional PDFs -->
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <div class="feature-icon pdf-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <h3>Professional PDFs</h3>
+                    <p>Generated documents include clean branding and a polished layout for both invoices and reports.</p>
+                    <div class="feature-link">
+                        <span>Print-ready quality</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="cta-section">
+        <div class="cta-content">
+            <h3>Ready to streamline your invoicing process?</h3>
+            <p>Create Your Mookh Invoicing And Reports account today and experience hassle-free document generation</p>
+            {% if not user.is_authenticated %}
+                <a href="{% url 'signup' %}" class="cta-btn">
+                    Get Started Now
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    /* ============================================
+       Home/Landing Page - Enhanced Styling
+       ============================================ */
+    
+    .home-container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    /* Hero Section */
+    .hero-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+        padding: 2rem 0 4rem;
+        margin-bottom: 2rem;
+    }
+    
+    .hero-content {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .hero-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+        padding: 0.5rem 1rem;
+        border-radius: 60px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .badge-text {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #4f46e5;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+    
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        color: #0f172a;
+    }
+    
+    .gradient-text {
+        background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+    
+    .hero-description {
+        font-size: 1.125rem;
+        color: #475569;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        max-width: 90%;
+    }
+    
+    .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .hero-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.875rem 1.75rem;
+        border-radius: 60px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+    }
+    
+    .primary-btn {
+        background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+    
+    .primary-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+    }
+    
+    .secondary-btn {
+        background: white;
+        color: #4f46e5;
+        border: 2px solid #e2e8f0;
+    }
+    
+    .secondary-btn:hover {
+        border-color: #4f46e5;
+        transform: translateY(-2px);
+        background: #f8fafc;
+    }
+    
+    .btn-icon {
+        width: 20px;
+        height: 20px;
+        stroke-width: 2;
+    }
+    
+    /* Hero Visual */
+    .hero-visual {
+        position: relative;
+        animation: fadeInRight 0.6s ease-out;
+    }
+    
+    .visual-card {
+        position: relative;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-radius: 32px;
+        padding: 3rem;
+        text-align: center;
+        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .document-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        border-radius: 24px;
+        padding: 2rem;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .large-icon svg {
+        width: 120px;
+        height: 120px;
+        color: #4f46e5;
+        stroke-width: 1.2;
+    }
+    
+    .floating-icons {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+    }
+    
+    .float-icon {
+        position: absolute;
+        background: white;
+        border-radius: 16px;
+        padding: 0.75rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    .float-icon svg {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .invoice-float {
+        top: -20px;
+        right: 20px;
+        animation-delay: 0s;
+    }
+    
+    .invoice-float svg {
+        color: #4f46e5;
+    }
+    
+    .report-float {
+        bottom: -20px;
+        left: 20px;
+        animation-delay: 1.5s;
+    }
+    
+    .report-float svg {
+        color: #10b981;
+    }
+    
+    /* Features Section */
+    .features-section {
+        padding: 4rem 0;
+        margin: 2rem 0;
+    }
+    
+    .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .section-badge {
+        display: inline-block;
+        background: #e0e7ff;
+        color: #4f46e5;
+        padding: 0.4rem 1rem;
+        border-radius: 60px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 1rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.125rem;
+        color: #64748b;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+    
+    .feature-card {
+        background: white;
+        border-radius: 24px;
+        padding: 2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        border: 1px solid #f1f5f9;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        border-color: #e2e8f0;
+    }
+    
+    .feature-icon-wrapper {
+        margin-bottom: 1.5rem;
+    }
+    
+    .feature-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .feature-icon svg {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .easy-icon {
+        background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+    }
+    
+    .easy-icon svg {
+        color: #4f46e5;
+    }
+    
+    .admin-icon {
+        background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+    }
+    
+    .admin-icon svg {
+        color: #2563eb;
+    }
+    
+    .pdf-icon {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    }
+    
+    .pdf-icon svg {
+        color: #d97706;
+    }
+    
+    .feature-content h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 0.75rem;
+    }
+    
+    .feature-content p {
+        color: #64748b;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #4f46e5;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+    
+    .feature-link svg {
+        width: 16px;
+        height: 16px;
+        stroke-width: 2;
+        transition: transform 0.3s ease;
+    }
+    
+    .feature-card:hover .feature-link svg {
+        transform: translateX(4px);
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        border-radius: 32px;
+        padding: 3rem;
+        margin: 3rem 0;
+        text-align: center;
+    }
+    
+    .cta-content h3 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 1rem;
+    }
+    
+    .cta-content p {
+        font-size: 1rem;
+        color: #cbd5e1;
+        margin-bottom: 2rem;
+    }
+    
+    .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+        color: white;
+        padding: 0.875rem 2rem;
+        border-radius: 60px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .cta-btn svg {
+        width: 20px;
+        height: 20px;
+        transition: transform 0.3s ease;
+    }
+    
+    .cta-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+    }
+    
+    .cta-btn:hover svg {
+        transform: translateX(4px);
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+        }
+        
+        .features-grid {
+            gap: 1.5rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .hero-section {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .hero-description {
+            max-width: 100%;
+        }
+        
+        .hero-buttons {
+            justify-content: center;
+        }
+        
+        .hero-visual {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .hero-title {
+            font-size: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+        }
+        
+        .cta-section {
+            padding: 2rem;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.25rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .hero-title {
+            font-size: 1.75rem;
+        }
+        
+        .hero-btn {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .hero-buttons {
+            flex-direction: column;
+        }
+        
+        .feature-card {
+            padding: 1.5rem;
+        }
+        
+        .large-icon svg {
+            width: 80px;
+            height: 80px;
+        }
+    }
+</style>
+{% endblock %}
