@@ -4,4 +4,3 @@ dj_database_url
 gunicorn
 python-decouple
 psycopg2-binary
-psycopg2
