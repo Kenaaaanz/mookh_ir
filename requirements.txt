@@ -2,3 +2,6 @@ Django>=4.2,<5.0
 reportlab>=4.0
 dj_database_url
 gunicorn
+python-decouple
+psycopg2-binary
+psycopg2
