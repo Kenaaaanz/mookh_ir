@@ -4,3 +4,4 @@ dj_database_url
 gunicorn
 python-decouple
 psycopg2-binary
+whitenoise==6.5.0
